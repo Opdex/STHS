@@ -4,7 +4,9 @@ Decentralized Stratis Transaction Handoff Specification used for dApps to handof
 
 ## Usage and Benefits
 
-Allows dApps to quote users without the users every giving direct access to any part of their wallet, then handoff the quoted payload to compatible wallets to build, review, sign and broadcast.
+Allows dApps to output QR codes in a common format that compatible wallets can recognize and use to build and broadcast transactions.
+
+Allows dApps and wallets to follow one common pattern rather than unique and individual integrations.
 
 ### Example
 
@@ -20,7 +22,7 @@ dApp compatibility relies on the implementation of the following requirements:
 
 - Gather required fields necessary to complete the raw transaction
 - Output a QR code matching the STHS schema
-- An available callback endpoint for the broadcasting wallet to notify of the submitted transaction hash
+- An available callback endpoint for the broadcasting wallet to notify of the submitted transaction hash and sender wallet address
 
 
 ### Wallet Compatibility
@@ -30,12 +32,13 @@ Wallet compatibility relies on the implementation of the following requirements:
 - Ability to scan or paste QR code data to retrieve transaction data
 - User or wallet should validate the entire request
 - build and broadcast the transaction, sending the transaction hash result to the callback present in the initial request
-- _**POST**_ the transaction hash to the callback URL if included in the initial request.
+- _**POST**_ the transaction hash and sender wallet address to the callback URL if included in the initial request.
     ```
     POST https://some.api.com/transactions
     Content-Type: application/json
     {
-        "transactionHash": "206c00b258a671813264d6781451436c6ac091460bdd9d07dc950c6a419a687c"
+        "transactionHash": "206c00b258a671813264d6781451436c6ac091460bdd9d07dc950c6a419a687c",
+        "walletAddress": "tHYHem7cLKgoLkeb792yn4WayqKzLrjJak"
     }
     ```
 
@@ -43,7 +46,7 @@ Wallet compatibility relies on the implementation of the following requirements:
 
 ## STHS Schema
 
-**STHS Schema Example**
+**STHS QR Schema Example**
 
 ```JSON
 {
